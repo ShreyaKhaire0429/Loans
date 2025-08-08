@@ -1,0 +1,107 @@
+# version: '3.8'
+
+# services:
+#   db:
+#     image: postgres:13
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data/
+#     environment:
+#       - POSTGRES_DB=creditdb
+#       - POSTGRES_USER=credituser
+#       - POSTGRES_PASSWORD=creditpass
+
+#   redis:
+#     image: redis:alpine
+
+#   web:
+#     build: .
+#     command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+#     volumes:
+#       - .:/app
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - db
+#       - redis
+#     environment:
+#       - DATABASE_NAME=creditdb
+#       - DATABASE_USER=credituser
+#       - DATABASE_PASSWORD=creditpass
+#       - DATABASE_HOST=db
+#       - REDIS_HOST=redis
+
+#   celery:
+#     build: .
+#     command: celery -A config worker --loglevel=info
+#     volumes:
+#       - .:/app
+#     depends_on:
+#       - web
+#       - redis
+
+#   nginx:
+#     image: nginx:alpine
+#     ports:
+#       - "80:80"
+#     volumes:
+#       - ./nginx:/etc/nginx/conf.d
+#     depends_on:
+#       - web
+
+# volumes:
+#   postgres_data:
+
+#   db:
+#     image: postgres
+#     environment:
+#       POSTGRES_DB: credit_db
+#       POSTGRES_USER: user
+#       POSTGRES_PASSWORD: password
+
+#   web:
+#     build: .
+#     command: >
+#       sh -c "python manage.py migrate &&
+#              gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+#     volumes:
+#       - .:/code
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - db
+
+
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: credit_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+
+  web:
+    build: .
+    command: sh -c "python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+
+  celery:
+    build: .
+    command: celery -A config worker --loglevel=info
+    depends_on:
+      - redis
+      - db
+
+volumes:
+  postgres_data:
