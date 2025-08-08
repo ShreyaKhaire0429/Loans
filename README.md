@@ -1,7 +1,7 @@
 # Loans
 
 # Start project
-mkdir loan-approval-api && cd loan-approval-api
+mkdir credit-approval && cd credit-approval
 
 # Setup virtualenv (optional)
 python -m venv venv
@@ -21,6 +21,6 @@ docker-compose up --build
 git init
 git add .
 git commit -m "Initial commit"
-git remote add origin https://github.com/yourusername/loan-approval-api.git
+git remote add origin https://github.com/ShreyaKhaire0429/Loans
 git branch -M main
 git push -u origin main
