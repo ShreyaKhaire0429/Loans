@@ -1,7 +1,7 @@
 # Loans
 
 # Start project
-mkdir credit-approval && cd credit-approval
+cd credit-approval
 
 # Setup virtualenv (optional)
 python -m venv venv
@@ -17,10 +17,11 @@ python app/main.py
 # Run using Docker
 docker-compose up --build
 
-# Push to GitHub
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/ShreyaKhaire0429/Loans
-git branch -M main
-git push -u origin main
+# api 
+http://localhost:8000/api/redoc/
+http://localhost:8000/api/docs/
+http://localhost:8000/admin/
+http://localhost:8000/api/register/
+http://localhost:8000/
+http://localhost:8000/api/register
+these are the apis 
